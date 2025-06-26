@@ -1,0 +1,46 @@
+{
+  "framework": "langgraph",
+  "blueprint_name": "blogger_resolver",
+  "architecture_file_path": "https://github.com/deepmodel-ai/dm-blue-print/blob/main/blogger_resolver/agents/main.py",
+  "description": "A multi-agent system that generates, edits, and schedules blog posts based on topics and deadlines.",
+  "overview": "The 'blogger_resolver' blueprint is designed to fully automate the process of content creation and publishing for blog platforms. It leverages a series of specialized agents arranged in a LangGraph pipeline to manage the entire lifecycle of a blog post. The system starts with the `topic_extractor`, which analyzes user input or a content backlog to identify relevant and trending topics. These topics are passed to the `content_writer`, which generates a comprehensive draft of the blog post using a language model. Next, the `editor` agent reviews the content, making improvements in grammar, tone, and SEO optimization to ensure publication-ready quality. Finally, the `publisher` agent handles the scheduling or immediate posting of the finalized blog post via integration with the Blogger API. This system supports asynchronous processing, modular design, and secure API access through the use of secrets like `OPENAI_API_KEY` and optionally `BLOGGER_API_TOKEN`. It is ideal for content teams and bloggers who want to accelerate their publishing workflow and reduce manual effort through AI-driven automation.",
+  "secrets": [
+    {
+      "key": "OPENAI_API_KEY",
+      "description": "Used by agents to access GPT models",
+      "required": true
+    },
+    {
+      "key": "BLOGGER_API_TOKEN",
+      "description": "Token to publish posts to a Blogger account",
+      "required": false
+    }
+  ],
+  "agents": [
+    {
+      "name": "topic_extractor",
+      "description": "Extracts blog post topics from user input or content backlog."
+    },
+    {
+      "name": "content_writer",
+      "description": "Generates blog content based on extracted topics."
+    },
+    {
+      "name": "editor",
+      "description": "Refines and edits the generated content for tone, grammar, and SEO."
+    },
+    {
+      "name": "publisher",
+      "description": "Schedules or publishes the final blog post using the Blogger API."
+    }
+  ],
+  "graph": {
+    "edges": [
+      { "from": "start", "to": "topic_extractor" },
+      { "from": "topic_extractor", "to": "content_writer" },
+      { "from": "content_writer", "to": "editor" },
+      { "from": "editor", "to": "publisher" },
+      { "from": "publisher", "to": "end" }
+    ]
+  }
+}
