@@ -3,7 +3,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Dict, Optional
 
-# Pydantic models for response validation
+# Pydantic models for response validation updated
 class SecretsCheckResponse(BaseModel):
     is_openai_key_present: bool
     is_calendar_token_present: bool
